@@ -150,7 +150,7 @@ SELECT *
 FROM Orders 
 WHERE Total_price BETWEEN 500 AND 1000;
 
---6. Find Products which name end with letter ‘r’. --
+--6. Find Products which name end with letter â€˜râ€™. --
 
 SELECT * 
 FROM Products
@@ -178,10 +178,11 @@ ORDER BY Category;
 
 --10. Calculate the Total Amount Spent by Each Customer.--
 
-SELECT o.customer_id, CONCAT(First_name,Last_name) AS Customer_Name,SUM(total_price) AS total_spent
-FROM orders o
-JOIN Customers c ON o.Customer_id=c.Customer_id
-GROUP BY o.customer_id,First_name,Last_name;
+SELECT c.customer_id, CONCAT(First_name,Last_name) AS Customer_Name,SUM(total_price) AS total_spent
+FROM Customers c
+LEFT JOIN Orders o ON o.Customer_id=c.Customer_id
+GROUP BY c.customer_id,First_name,Last_name
+ORDER BY c.customer_id,First_name,Last_name;
 
 --11. Find the Average Order Amount for Each Customer. --
 
@@ -218,9 +219,9 @@ WHERE Total_price>1000;
 --15. Subquery to Find Products Not in the Cart. --
 
 SELECT *
-FROM customers
-WHERE customer_id NOT IN (
-    SELECT DISTINCT customer_id FROM Cart
+FROM Products
+WHERE Product_id NOT IN (
+    SELECT DISTINCT Product_id FROM Cart
 );
 
 --16. Subquery to Find Customers Who Haven't Placed Orders. --
